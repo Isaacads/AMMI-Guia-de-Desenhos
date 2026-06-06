@@ -1,65 +1,125 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="mx-auto w-full max-w-5xl px-4 py-10">
+      <section className="rounded-2xl bg-white/70 border border-foreground/10 p-6 md:p-10">
+        <div className="flex flex-col gap-6">
+          <div className="inline-flex items-center gap-2 text-sm text-foreground/80">
+            <span className="h-2 w-2 rounded-full bg-secondary" />
+            Plataforma consultiva, mobile-first
+          </div>
+          <h1 className="text-3xl md:text-5xl font-semibold tracking-tight">
+            Tela nunca é neutra!
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+          <p className="text-base md:text-lg text-foreground/80 max-w-2xl">
+            Descubra quais desenhos são mais adequados por idade e como o ritmo,
+            a linguagem e o conteúdo impactam sono, atenção e comportamento.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Link
+              href="/teste"
+              className="rounded-md bg-primary text-background px-5 py-3 text-center font-medium"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              Fazer teste gratuito (60s)
+            </Link>
+            <Link
+              href="/guia"
+              className="rounded-md border border-foreground/20 px-5 py-3 text-center font-medium"
             >
-              Learning
-            </a>{" "}
-            center.
+              Acessar Guia Completo
+            </Link>
+            <Link
+              href="/entrar?next=%2Fpremium%2Frecomendador"
+              className="rounded-md border border-foreground/20 px-5 py-3 text-center font-medium"
+            >
+              Entrar e gerar relatório completo
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="mt-10 rounded-2xl bg-white/70 border border-foreground/10 p-6 md:p-10">
+        <h2 className="text-2xl font-semibold tracking-tight">
+          Como funciona (em 60 segundos)
+        </h2>
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
+          <div className="rounded-xl border border-foreground/10 bg-white/60 p-5">
+            <p className="font-semibold">1) Conte sua realidade</p>
+            <p className="mt-2 text-sm text-foreground/80">
+              Idade, preferências, tempo de tela e plataformas que você tem em
+              casa.
+            </p>
+          </div>
+          <div className="rounded-xl border border-foreground/10 bg-white/60 p-5">
+            <p className="font-semibold">2) Receba o relatório</p>
+            <p className="mt-2 text-sm text-foreground/80">
+              Recomendados, com moderação e o que evitar — com o porquê.
+            </p>
+          </div>
+          <div className="rounded-xl border border-foreground/10 bg-white/60 p-5">
+            <p className="font-semibold">3) Aplique um plano</p>
+            <p className="mt-2 text-sm text-foreground/80">
+              Cronograma semanal + PDF para compartilhar e manter consistência.
+            </p>
+          </div>
+        </div>
+        <div className="mt-8">
+          <Link
+            href="/entrar?next=%2Fpremium%2Frecomendador"
+            className="inline-flex rounded-md bg-foreground text-background px-5 py-3 font-medium"
+          >
+            Começar agora
+          </Link>
+        </div>
+      </section>
+
+      <section className="mt-10 grid gap-4 md:grid-cols-3">
+        <div className="rounded-xl bg-white/70 border border-foreground/10 p-5">
+          <p className="font-semibold">Dores reais</p>
+          <ul className="mt-3 space-y-2 text-foreground/80">
+            <li>✓ “Esse desenho é muito acelerado pro meu filho?”</li>
+            <li>✓ “Essa linguagem é adequada pra idade dele?”</li>
+            <li>✓ “Isso pode atrapalhar sono, atenção ou comportamento?”</li>
+          </ul>
+        </div>
+        <div className="rounded-xl bg-white/70 border border-foreground/10 p-5">
+          <p className="font-semibold">Benefícios</p>
+          <ul className="mt-3 space-y-2 text-foreground/80">
+            <li>✓ Recomendações claras por idade</li>
+            <li>✓ Análise de ritmo, linguagem e riscos</li>
+            <li>✓ Plano saudável de visualização</li>
+          </ul>
+        </div>
+        <div className="rounded-xl bg-white/70 border border-foreground/10 p-5">
+          <p className="font-semibold">Credibilidade</p>
+          <p className="mt-3 text-foreground/80">
+            Conteúdo estruturado com base em referências de neurodesenvolvimento
+            infantil e acompanhamento multidisciplinar.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </section>
+
+      <section className="mt-10 rounded-2xl bg-white/70 border border-foreground/10 p-6 md:p-10">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <p className="text-sm text-foreground/80">Premium</p>
+            <h2 className="text-2xl font-semibold tracking-tight">
+              Recomendações personalizadas, catálogo completo e relatórios
+            </h2>
+            <p className="mt-2 text-foreground/80 max-w-2xl">
+              Transforme dúvida em decisão: uma experiência dinâmica e
+              consultiva para aumentar o valor percebido e a retenção.
+            </p>
+          </div>
+          <Link
+            href="/premium/recomendador"
+            className="rounded-md bg-foreground text-background px-5 py-3 text-center font-medium w-full md:w-auto"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            Ver recursos Premium
+          </Link>
         </div>
-      </main>
+      </section>
     </div>
   );
 }
