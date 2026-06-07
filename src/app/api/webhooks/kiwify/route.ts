@@ -73,10 +73,8 @@ function pickCpf(payload: unknown): string | null {
 }
 
 function pickPlan(payload: unknown): "premium" | "free" {
-  if (!payload || typeof payload !== "object") return "premium";
-  const obj = payload as Record<string, unknown>;
-  const event = String(obj.event ?? obj.type ?? obj.action ?? "").toLowerCase();
-  const status = String(obj.status ?? obj.payment_status ?? obj.sale_status ?? "").toLowerCase();
+  const event = pickTrigger(payload);
+  const status = pickStatus(payload);
   const refund = event.includes("refund") || event.includes("chargeback") || status.includes("refund") || status.includes("chargeback");
   return refund ? "free" : "premium";
 }
@@ -85,6 +83,34 @@ function pickTrigger(payload: unknown): string {
   if (!payload || typeof payload !== "object") return "";
   const found = searchStringValue(payload, ["event", "type", "action", "trigger"]);
   return String(found ?? "").toLowerCase();
+}
+
+function pickStatus(payload: unknown): string {
+  if (!payload || typeof payload !== "object") return "";
+  const found = searchStringValue(payload, [
+    "status",
+    "payment_status",
+    "sale_status",
+  ]);
+  return String(found ?? "").toLowerCase();
+}
+
+function isAccessEvent(trigger: string, status: string): boolean {
+  const text = `${trigger} ${status}`;
+
+  return [
+    "purchase_approved",
+    "compra_aprovada",
+    "compra aprovada",
+    "payment_approved",
+    "paid",
+    "approved",
+    "completed",
+    "refund",
+    "refunded",
+    "reembolso",
+    "chargeback",
+  ].some((term) => text.includes(term));
 }
 
 async function findAuthUserByEmail(
@@ -125,14 +151,16 @@ export async function POST(request: Request) {
   const email = pickEmail(payload);
   const cpf = pickCpf(payload);
   const trigger = pickTrigger(payload);
+  const status = pickStatus(payload);
 
-  if (trigger.includes("pix_gerado")) {
+  if (!isAccessEvent(trigger, status)) {
     return NextResponse.json({
       ok: true,
-      plan: "free",
+      ignored: true,
       trigger,
-      pixGenerated: true,
+      status,
       email: email ?? null,
+      message: "Evento recebido sem alterar acesso.",
     });
   }
 
