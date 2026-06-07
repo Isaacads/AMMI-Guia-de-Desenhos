@@ -6,12 +6,16 @@ const EXPECTED_TOKEN = "8kj1p4oxwpz";
 function pickEmail(payload: unknown): string | null {
   if (!payload || typeof payload !== "object") return null;
   const obj = payload as Record<string, unknown>;
+  const customer =
+    obj.customer && typeof obj.customer === "object"
+      ? (obj.customer as Record<string, unknown>)
+      : null;
 
   const directCandidates = [
     obj.email,
     obj.buyer_email,
     obj.customer_email,
-    obj.customer?.email,
+    customer?.email,
     obj.client_email,
     obj.user_email,
   ];
