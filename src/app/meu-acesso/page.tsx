@@ -80,8 +80,9 @@ export default async function MeuAcessoPage({
         <div className="mt-6 rounded-2xl border border-primary/20 bg-primary/5 p-5">
           <p className="font-semibold">Seu primeiro acesso</p>
           <p className="mt-2 text-sm text-foreground/80">
-            Use o e-mail da compra e o CPF informado no checkout como senha.
-            Depois do primeiro acesso, você pode alterar a senha se quiser.
+            Senha inicial: use o CPF apenas com números, sem pontos e sem
+            traços. Depois do primeiro acesso, você pode alterar a senha se
+            quiser.
           </p>
           <form action={markFirstAccessNoticeSeen} className="mt-4">
             <button

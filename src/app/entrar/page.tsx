@@ -15,7 +15,7 @@ export default async function EntrarPage({
     <div className="mx-auto w-full max-w-md px-4 py-10">
       <h1 className="text-3xl font-semibold tracking-tight">Entrar</h1>
       <p className="mt-2 text-foreground/80">
-        Acesse com o e-mail e a senha liberados após a compra.
+        Acesse com o e-mail da compra e a senha inicial liberada após a compra.
       </p>
 
       {errorMessage ? (
@@ -28,7 +28,7 @@ export default async function EntrarPage({
         {next ? <input type="hidden" name="next" value={next} /> : null}
         <div className="space-y-2">
           <label htmlFor="email" className="text-sm font-medium">
-            E-mail
+            E-mail da compra
           </label>
           <input
             id="email"
@@ -42,7 +42,7 @@ export default async function EntrarPage({
         </div>
         <div className="space-y-2">
           <label htmlFor="password" className="text-sm font-medium">
-            Senha
+            Senha inicial
           </label>
           <input
             id="password"
