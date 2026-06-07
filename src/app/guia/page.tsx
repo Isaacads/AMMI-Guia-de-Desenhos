@@ -36,7 +36,7 @@ export default function GuiaPage() {
         <h1 className="text-3xl font-semibold tracking-tight">
           Telas por faixa etária
         </h1>
-        <p className="text-foreground/80 max-w-2xl">
+        <p className="max-w-2xl text-foreground/80">
           Um guia rápido para tomar decisões melhores no dia a dia. A versão
           Premium traz mais detalhes, catálogo completo e recomendador
           personalizado.
@@ -47,7 +47,7 @@ export default function GuiaPage() {
         {ageBlocks.map((b) => (
           <section
             key={b.range}
-            className="rounded-2xl bg-white/70 border border-foreground/10 p-6"
+            className="rounded-2xl border border-foreground/10 bg-white/70 p-6"
           >
             <div className="flex items-start justify-between gap-3">
               <h2 className="text-xl font-semibold">{b.range}</h2>
@@ -75,9 +75,9 @@ export default function GuiaPage() {
         ))}
       </div>
 
-      <div className="mt-10 rounded-2xl bg-white/70 border border-foreground/10 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="mt-10 flex flex-col items-start justify-between gap-4 rounded-2xl border border-foreground/10 bg-white/70 p-6 md:flex-row md:items-center md:p-8">
         <div>
-          <p className="font-semibold">⚠️ Nota</p>
+          <p className="font-semibold">Nota</p>
           <p className="text-foreground/80">
             A versão completa inclui mais critérios, recomendações por perfil e
             ferramentas premium.
@@ -85,7 +85,7 @@ export default function GuiaPage() {
         </div>
         <Link
           href="/premium/recomendador"
-          className="rounded-md bg-primary text-background px-5 py-3 font-medium w-full md:w-auto text-center"
+          className="w-full rounded-md bg-primary px-5 py-3 text-center font-medium text-background md:w-auto"
         >
           Ver Premium
         </Link>
@@ -93,4 +93,3 @@ export default function GuiaPage() {
     </div>
   );
 }
-

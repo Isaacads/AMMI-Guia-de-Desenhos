@@ -14,7 +14,7 @@ export default async function RecuperarSenhaPage({
     <div className="mx-auto w-full max-w-md px-4 py-10">
       <h1 className="text-3xl font-semibold tracking-tight">Alterar senha</h1>
       <p className="mt-2 text-foreground/80">
-        Informe o email usado na compra para receber o link de alteração.
+        Informe o e-mail usado na compra para receber o link de alteração.
       </p>
 
       {errorMessage ? (
@@ -32,7 +32,7 @@ export default async function RecuperarSenhaPage({
       <form action={sendPasswordResetEmail} className="mt-6 space-y-4">
         <div className="space-y-2">
           <label htmlFor="email" className="text-sm font-medium">
-            Email
+            E-mail
           </label>
           <input
             id="email"
@@ -46,7 +46,7 @@ export default async function RecuperarSenhaPage({
         </div>
         <button
           type="submit"
-          className="w-full rounded-md bg-primary text-background px-4 py-2.5 font-medium"
+          className="w-full rounded-md bg-primary px-4 py-2.5 font-medium text-background"
         >
           Enviar link de alteração
         </button>

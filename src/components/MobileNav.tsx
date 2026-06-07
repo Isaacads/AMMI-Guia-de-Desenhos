@@ -21,7 +21,7 @@ export function MobileNav({ isAuthed }: Props) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
-  const linkClass = "block px-3 py-2 rounded-md hover:bg-background/10";
+  const linkClass = "block rounded-md px-3 py-2 hover:bg-background/10";
 
   return (
     <div className="relative md:hidden">

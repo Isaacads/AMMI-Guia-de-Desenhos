@@ -39,7 +39,7 @@ export default async function MeuAcessoPage({
 
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-10">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
         <div>
           <h1 className="text-3xl font-semibold tracking-tight">Meu acesso</h1>
           <p className="mt-2 text-foreground/80">
@@ -52,14 +52,14 @@ export default async function MeuAcessoPage({
         {viewer.plan !== "premium" ? (
           <Link
             href="/premium/upgrade"
-            className="rounded-md bg-primary text-background px-5 py-3 font-medium text-center"
+            className="rounded-md bg-primary px-5 py-3 text-center font-medium text-background"
           >
             Fazer upgrade
           </Link>
         ) : (
           <Link
             href="/premium/recomendador"
-            className="rounded-md bg-foreground text-background px-5 py-3 font-medium text-center"
+            className="rounded-md bg-foreground px-5 py-3 text-center font-medium text-background"
           >
             Abrir recomendador
           </Link>
@@ -73,7 +73,7 @@ export default async function MeuAcessoPage({
       ) : null}
 
       <div className="mt-10 grid gap-6 md:grid-cols-2">
-        <section className="rounded-2xl bg-white/70 border border-foreground/10 p-6">
+        <section className="rounded-2xl border border-foreground/10 bg-white/70 p-6">
           <h2 className="text-lg font-semibold">Filhos</h2>
           <p className="mt-2 text-sm text-foreground/80">
             Salve idades para facilitar recomendações e relatórios.
@@ -88,7 +88,7 @@ export default async function MeuAcessoPage({
               children.map((c) => (
                 <div
                   key={c.id}
-                  className="rounded-xl border border-foreground/10 bg-white/60 p-4 flex items-start justify-between gap-4"
+                  className="flex items-start justify-between gap-4 rounded-xl border border-foreground/10 bg-white/60 p-4"
                 >
                   <div>
                     <p className="font-medium">{c.name}</p>
@@ -111,7 +111,7 @@ export default async function MeuAcessoPage({
           </div>
         </section>
 
-        <section className="rounded-2xl bg-white/70 border border-foreground/10 p-6">
+        <section className="rounded-2xl border border-foreground/10 bg-white/70 p-6">
           <h2 className="text-lg font-semibold">Adicionar filho</h2>
           <form action={addChild} className="mt-5 space-y-4">
             <div className="space-y-2">
@@ -151,13 +151,11 @@ export default async function MeuAcessoPage({
                 placeholder="Ex.: TDAH, Autismo"
                 className="w-full rounded-md border border-foreground/20 bg-white/70 px-3 py-2"
               />
-              <p className="text-xs text-foreground/70">
-                Separe por vírgula.
-              </p>
+              <p className="text-xs text-foreground/70">Separe por vírgula.</p>
             </div>
             <button
               type="submit"
-              className="w-full rounded-md bg-foreground text-background px-4 py-2.5 font-medium"
+              className="w-full rounded-md bg-foreground px-4 py-2.5 font-medium text-background"
             >
               Salvar
             </button>

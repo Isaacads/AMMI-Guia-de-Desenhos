@@ -17,10 +17,10 @@ export default async function RelatoriosPage() {
         <p className="mt-3 text-foreground/80">
           Dashboard, registros e gráficos simples ficam disponíveis no Premium.
         </p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-3">
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link
             href="/premium/upgrade"
-            className="rounded-md bg-primary text-background px-5 py-3 text-center font-medium"
+            className="rounded-md bg-primary px-5 py-3 text-center font-medium text-background"
           >
             Fazer upgrade
           </Link>
@@ -41,14 +41,14 @@ export default async function RelatoriosPage() {
         <h1 className="text-3xl font-semibold tracking-tight">
           Relatórios e acompanhamento
         </h1>
-        <p className="text-foreground/80 max-w-3xl">
+        <p className="max-w-3xl text-foreground/80">
           Registre desenhos assistidos, tempo de tela e sinais de impacto (sono,
           comportamento, atenção). Use como guia para ajustes semanais.
         </p>
       </div>
 
       <div className="mt-8 grid gap-6 md:grid-cols-2">
-        <section className="rounded-2xl bg-white/70 border border-foreground/10 p-6">
+        <section className="rounded-2xl border border-foreground/10 bg-white/70 p-6">
           <h2 className="text-lg font-semibold">Horas de tela (semana)</h2>
           <div className="mt-5 rounded-xl border border-foreground/10 bg-white/60 p-6 text-sm text-foreground/80">
             Conecte registros manuais (ou integração futura) para alimentar
@@ -56,7 +56,7 @@ export default async function RelatoriosPage() {
           </div>
         </section>
 
-        <section className="rounded-2xl bg-white/70 border border-foreground/10 p-6">
+        <section className="rounded-2xl border border-foreground/10 bg-white/70 p-6">
           <h2 className="text-lg font-semibold">Impacto</h2>
           <div className="mt-5 rounded-xl border border-foreground/10 bg-white/60 p-6 text-sm text-foreground/80">
             Registre observações de sono, atenção e comportamento. Compare com a

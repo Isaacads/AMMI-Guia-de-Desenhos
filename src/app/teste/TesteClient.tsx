@@ -60,7 +60,7 @@ export function TesteClient({ initialAge }: { initialAge: number }) {
         | { error?: string }
         | null;
       setStatus("idle");
-      setError(payload?.error ?? "Nao foi possivel gerar o teste.");
+      setError(payload?.error ?? "Não foi possível gerar o teste.");
       return;
     }
 
@@ -74,20 +74,20 @@ export function TesteClient({ initialAge }: { initialAge: number }) {
   async function copySummary() {
     if (!report) return;
     const lines = [
-      `AMMI - Teste rapido`,
+      `AMMI - Teste rápido`,
       `Idade: ${report.analysis.age} anos`,
       `Tempo recomendado: ${report.analysis.recommendedTime}`,
       report.recommended.length
         ? `Recomendados: ${report.recommended.map((x) => x.name).join(", ")}`
         : `Recomendados: -`,
       report.moderation.length
-        ? `Com moderacao: ${report.moderation.map((x) => x.name).join(", ")}`
-        : `Com moderacao: -`,
+        ? `Com moderação: ${report.moderation.map((x) => x.name).join(", ")}`
+        : `Com moderação: -`,
       report.notRecommended.length
         ? `Evitar: ${report.notRecommended.map((x) => x.name).join(", ")}`
         : `Evitar: -`,
       `Dica: ${report.analysis.tip}`,
-      `Faca o teste: ${window.location.origin}/teste`,
+      `Faça o teste: ${window.location.origin}/teste`,
     ];
 
     try {
@@ -95,7 +95,7 @@ export function TesteClient({ initialAge }: { initialAge: number }) {
       setError("Resumo copiado. Cole no WhatsApp e envie.");
       setTimeout(() => setError(null), 3000);
     } catch {
-      setError("Nao foi possivel copiar. Tente novamente.");
+      setError("Não foi possível copiar. Tente novamente.");
       setTimeout(() => setError(null), 3000);
     }
   }
@@ -129,7 +129,7 @@ export function TesteClient({ initialAge }: { initialAge: number }) {
     const blob = await fetchCardBlob();
     setCardStatus("idle");
     if (!blob) {
-      setError("Nao foi possivel gerar o cartao.");
+      setError("Não foi possível gerar o cartão.");
       setTimeout(() => setError(null), 3000);
       return;
     }
@@ -150,7 +150,7 @@ export function TesteClient({ initialAge }: { initialAge: number }) {
       const payload = (await res.json().catch(() => null)) as
         | { error?: string }
         | null;
-      setError(payload?.error ?? "Nao foi possivel gerar o PDF.");
+      setError(payload?.error ?? "Não foi possível gerar o PDF.");
       setTimeout(() => setError(null), 3000);
       return;
     }
@@ -164,7 +164,7 @@ export function TesteClient({ initialAge }: { initialAge: number }) {
     const blob = await fetchCardBlob();
     setCardStatus("idle");
     if (!blob) {
-      setError("Nao foi possivel gerar o cartao.");
+      setError("Não foi possível gerar o cartão.");
       setTimeout(() => setError(null), 3000);
       return;
     }
@@ -174,8 +174,8 @@ export function TesteClient({ initialAge }: { initialAge: number }) {
     });
 
     const shareData: ShareData = {
-      title: "AMMI - Teste rapido",
-      text: "Resultado do teste rapido (AMMI).",
+      title: "AMMI - Teste rápido",
+      text: "Resultado do teste rápido (AMMI).",
       files: [file],
     };
 
@@ -195,7 +195,7 @@ export function TesteClient({ initialAge }: { initialAge: number }) {
       <section className="rounded-2xl border border-foreground/10 bg-white/70 p-6">
         <h2 className="text-lg font-semibold">Teste gratuito (60s)</h2>
         <p className="mt-2 text-sm text-foreground/80">
-          Sem cadastro. VocÃª recebe um resultado rÃ¡pido e pode salvar criando a
+          Sem cadastro. Você recebe um resultado rápido e pode salvar criando a
           conta.
         </p>
 
@@ -232,7 +232,7 @@ export function TesteClient({ initialAge }: { initialAge: number }) {
 
           <div className="space-y-2">
             <label className="text-sm font-medium" htmlFor="pref">
-              PreferÃªncias (opcional)
+              Preferências (opcional)
             </label>
             <input
               id="pref"
@@ -278,8 +278,8 @@ export function TesteClient({ initialAge }: { initialAge: number }) {
           <div>
             <h2 className="text-lg font-semibold">Resultado</h2>
             <p className="mt-2 text-sm text-foreground/80">
-              Preview gratuito com leitura imediata. No Premium vocÃª salva
-              histÃ³rico, exporta relatÃ³rio completo e usa recomendaÃ§Ãµes
+              Preview gratuito com leitura imediata. No Premium você salva
+              histórico, exporta relatório completo e usa recomendações
               ilimitadas.
             </p>
           </div>

@@ -64,7 +64,7 @@ export default async function BlogPage() {
     <div className="mx-auto w-full max-w-5xl px-4 py-10">
       <div className="flex flex-col gap-3">
         <h1 className="text-3xl font-semibold tracking-tight">Artigos</h1>
-        <p className="text-foreground/80 max-w-2xl">
+        <p className="max-w-2xl text-foreground/80">
           Conteúdo educativo sobre telas, desenvolvimento infantil e escolhas de
           desenhos. Alguns artigos são completos no Premium.
         </p>
@@ -74,12 +74,12 @@ export default async function BlogPage() {
         {articles.map((a) => (
           <article
             key={a.slug}
-            className="rounded-2xl bg-white/70 border border-foreground/10 p-6 flex flex-col gap-3"
+            className="flex flex-col gap-3 rounded-2xl border border-foreground/10 bg-white/70 p-6"
           >
             <div className="flex items-start justify-between gap-3">
               <h2 className="text-lg font-semibold leading-snug">{a.title}</h2>
               {a.isPremium ? (
-                <span className="rounded-full bg-primary text-background px-3 py-1 text-xs">
+                <span className="rounded-full bg-primary px-3 py-1 text-xs text-background">
                   Premium
                 </span>
               ) : (

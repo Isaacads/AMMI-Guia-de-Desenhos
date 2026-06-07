@@ -8,15 +8,15 @@ export const dynamic = "force-dynamic";
 const faqs = [
   {
     q: "Meu filho tem TDAH, qual o melhor desenho?",
-    a: "Prefira ritmo previsivel, episodios curtos e linguagem clara. Evite conteudo muito acelerado e com alto risco de vicio.",
+    a: "Prefira ritmo previsível, episódios curtos e linguagem clara. Evite conteúdo muito acelerado e com alto risco de vício.",
   },
   {
     q: "Como fazer ele desligar da tela?",
-    a: "A melhor estrategia costuma ser previsibilidade: combinados antes de ligar, aviso de 5 minutos e transicao para uma atividade curta, como banho, historia ou musica.",
+    a: "A melhor estratégia costuma ser previsibilidade: combinados antes de ligar, aviso de 5 minutos e transição para uma atividade curta, como banho, história ou música.",
   },
   {
-    q: "Qual ritmo e seguro para meu bebe?",
-    a: "Para 0-2 anos, a recomendacao e evitar ao maximo. Quando houver exposicao, mantenha estimulo baixo e, preferencialmente, com adulto junto.",
+    q: "Qual ritmo é seguro para meu bebê?",
+    a: "Para 0-2 anos, a recomendação é evitar ao máximo. Quando houver exposição, mantenha estímulo baixo e, preferencialmente, com adulto junto.",
   },
 ];
 
@@ -28,10 +28,10 @@ export default async function ConsultorioPage() {
     return (
       <div className="mx-auto w-full max-w-3xl px-4 py-10">
         <h1 className="text-3xl font-semibold tracking-tight">
-          Consultorio virtual (Premium)
+          Consultório virtual (Premium)
         </h1>
         <p className="mt-3 text-foreground/80">
-          FAQ completo e chat consultivo estao disponiveis no Premium.
+          FAQ completo e chat consultivo estão disponíveis no Premium.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link
@@ -44,7 +44,7 @@ export default async function ConsultorioPage() {
             href="/premium/recomendador"
             className="rounded-md border border-foreground/20 px-5 py-3 text-center font-medium"
           >
-            Ver sugestoes
+            Ver sugestões
           </Link>
         </div>
       </div>
@@ -55,11 +55,11 @@ export default async function ConsultorioPage() {
     <div className="mx-auto w-full max-w-5xl px-4 py-10">
       <div className="flex flex-col gap-3">
         <h1 className="text-3xl font-semibold tracking-tight">
-          Consultorio virtual
+          Consultório virtual
         </h1>
         <p className="max-w-3xl text-foreground/80">
-          Respostas rapidas e acionaveis para duvidas comuns. Ideal para usar
-          junto das sugestoes.
+          Respostas rápidas e acionáveis para dúvidas comuns. Ideal para usar
+          junto das sugestões.
         </p>
       </div>
 
@@ -82,8 +82,8 @@ export default async function ConsultorioPage() {
         <section className="rounded-2xl border border-foreground/10 bg-white/70 p-6">
           <h2 className="text-lg font-semibold">Chat consultivo</h2>
           <p className="mt-2 text-sm text-foreground/80">
-            Assistente para duvidas rapidas sobre tempo de tela, sono,
-            transicoes e adequacao de desenhos.
+            Assistente para dúvidas rápidas sobre tempo de tela, sono,
+            transições e adequação de desenhos.
           </p>
           <ConsultorioChat />
         </section>

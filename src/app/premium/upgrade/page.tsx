@@ -63,7 +63,7 @@ export default async function UpgradePage() {
               href="/premium/recomendador"
               className="rounded-md border border-foreground/20 px-5 py-3 text-center font-medium"
             >
-              Voltar ao recomendador
+              Voltar às sugestões
             </Link>
           </div>
         </div>

@@ -49,10 +49,10 @@ export default async function CatalogoPage() {
           O catálogo com filtros avançados e análises estruturadas está
           disponível no Premium.
         </p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-3">
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link
             href="/premium/upgrade"
-            className="rounded-md bg-primary text-background px-5 py-3 text-center font-medium"
+            className="rounded-md bg-primary px-5 py-3 text-center font-medium text-background"
           >
             Fazer upgrade
           </Link>
@@ -80,6 +80,7 @@ export default async function CatalogoPage() {
     educationalPotential: String(s.educationalPotential),
     addictionRisk: String(s.addictionRisk),
   }));
+
   try {
     const supabase = await createSupabaseServerClient();
     const { data, error } = await supabase
@@ -112,7 +113,7 @@ export default async function CatalogoPage() {
     <div className="mx-auto w-full max-w-5xl px-4 py-10">
       <div className="flex flex-col gap-3">
         <h1 className="text-3xl font-semibold tracking-tight">Catálogo</h1>
-        <p className="text-foreground/80 max-w-3xl">
+        <p className="max-w-3xl text-foreground/80">
           Base estruturada de desenhos com filtros e critérios de análise para
           apoiar decisões rápidas.
         </p>

@@ -20,9 +20,9 @@ export default async function TestePage({
             Teste gratuito, com caminho claro para o Premium
           </h1>
           <p className="max-w-3xl text-foreground/80">
-            Descubra rapidamente o que faz sentido para a idade da crianca, veja
-            onde o conteudo comeca a pesar e entenda quando vale usar o
-            catalogo e o plano semanal do Premium.
+            Descubra rapidamente o que faz sentido para a idade da criança, veja
+            onde o conteúdo começa a pesar e entenda quando vale usar o
+            catálogo e o plano semanal do Premium.
           </p>
         </div>
         <div className="grid grid-cols-3 gap-3 text-sm">
@@ -36,7 +36,7 @@ export default async function TestePage({
           </div>
           <div className="rounded-2xl border border-foreground/10 bg-white/70 px-4 py-3 text-center">
             <p className="text-lg font-semibold">PDF</p>
-            <p className="text-foreground/70">saida rapida</p>
+            <p className="text-foreground/70">saída rápida</p>
           </div>
         </div>
       </div>
@@ -45,20 +45,20 @@ export default async function TestePage({
         <div className="rounded-2xl border border-foreground/10 bg-white/60 p-4">
           <p className="font-semibold">1. Ajuste a idade</p>
           <p className="mt-2 text-sm text-foreground/75">
-            Comece pelo contexto real da crianca para receber uma leitura mais
-            util.
+            Comece pelo contexto real da criança para receber uma leitura mais
+            útil.
           </p>
         </div>
         <div className="rounded-2xl border border-foreground/10 bg-white/60 p-4">
           <p className="font-semibold">2. Gere o resumo</p>
           <p className="mt-2 text-sm text-foreground/75">
-            O teste mostra sugestoes, moderacao e o que evitar.
+            O teste mostra sugestões, moderação e o que evitar.
           </p>
         </div>
         <div className="rounded-2xl border border-foreground/10 bg-white/60 p-4">
           <p className="font-semibold">3. Siga para o Premium</p>
           <p className="mt-2 text-sm text-foreground/75">
-            Use o teste como ponto de entrada para salvar historico e destravar
+            Use o teste como ponto de entrada para salvar histórico e destravar
             recursos completos.
           </p>
         </div>
