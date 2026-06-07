@@ -10,7 +10,7 @@ export default function Home() {
             Plataforma consultiva, mobile-first
           </div>
           <h1 className="text-3xl font-semibold tracking-tight md:text-5xl">
-            Tela nunca e neutra!
+            Tela nunca é neutra!
           </h1>
           <p className="max-w-2xl text-base text-foreground/80 md:text-lg">
             Descubra quais desenhos sao mais adequados por idade e como o ritmo,
