@@ -136,17 +136,22 @@ export async function POST(request: Request) {
       );
     }
 
-    const { error: insertProfileError } = await supabase.from("profiles").insert({
-      id: profileId,
-      email,
-      plan,
-      full_name: null,
-      first_access_notice_seen: false,
-    });
+    const { error: upsertProfileError } = await supabase
+      .from("profiles")
+      .upsert(
+        {
+          id: profileId,
+          email,
+          plan,
+          full_name: null,
+          first_access_notice_seen: false,
+        },
+        { onConflict: "id" },
+      );
 
-    if (insertProfileError) {
+    if (upsertProfileError) {
       return NextResponse.json(
-        { error: insertProfileError.message },
+        { error: upsertProfileError.message },
         { status: 500 },
       );
     }
