@@ -144,7 +144,15 @@ export async function POST(request: Request) {
   const token = url.searchParams.get("token");
 
   if (token !== EXPECTED_TOKEN) {
-    return NextResponse.json({ error: "Token inválido" }, { status: 401 });
+    console.error("Kiwify webhook com token invalido", {
+      tokenReceived: token ? "present" : "missing",
+    });
+
+    return NextResponse.json({
+      ok: true,
+      accessUpdated: false,
+      error: "Token invalido.",
+    });
   }
 
   const payload = await request.json().catch(() => null);
@@ -184,10 +192,16 @@ export async function POST(request: Request) {
   try {
     supabase = createSupabaseAdminClient();
   } catch (error) {
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Configuração inválida" },
-      { status: 500 },
-    );
+    console.error("Configuracao invalida do Supabase no webhook Kiwify", error);
+
+    return NextResponse.json({
+      ok: true,
+      accessUpdated: false,
+      email,
+      trigger,
+      status,
+      error: error instanceof Error ? error.message : "Configuracao invalida.",
+    });
   }
 
   const plan = pickPlan(payload);
@@ -223,10 +237,21 @@ export async function POST(request: Request) {
       });
 
     if (createUserError) {
-      return NextResponse.json(
-        { error: createUserError.message },
-        { status: 500 },
-      );
+      console.error("Erro ao criar usuario pelo webhook Kiwify", {
+        email,
+        trigger,
+        status,
+        error: createUserError.message,
+      });
+
+      return NextResponse.json({
+        ok: true,
+        accessUpdated: false,
+        email,
+        trigger,
+        status,
+        error: createUserError.message,
+      });
     }
 
     authUser = createdUser.user ?? null;
@@ -234,13 +259,21 @@ export async function POST(request: Request) {
   }
 
   if (!authUser?.id) {
-    return NextResponse.json(
-      {
-        error:
-          "Usuário não encontrado no Auth e também não foi possível criar um novo usuário.",
-      },
-      { status: 500 },
-    );
+    console.error("Webhook Kiwify sem usuario Auth apos sincronizacao", {
+      email,
+      trigger,
+      status,
+    });
+
+    return NextResponse.json({
+      ok: true,
+      accessUpdated: false,
+      email,
+      trigger,
+      status,
+      error:
+        "Usuario nao encontrado no Auth e nao foi possivel criar um novo usuario.",
+    });
   }
 
   const { error: upsertProfileError } = await supabase
@@ -257,14 +290,26 @@ export async function POST(request: Request) {
     );
 
   if (upsertProfileError) {
-    return NextResponse.json(
-      { error: upsertProfileError.message },
-      { status: 500 },
-    );
+    console.error("Erro ao sincronizar profile pelo webhook Kiwify", {
+      email,
+      trigger,
+      status,
+      error: upsertProfileError.message,
+    });
+
+    return NextResponse.json({
+      ok: true,
+      accessUpdated: false,
+      email,
+      trigger,
+      status,
+      error: upsertProfileError.message,
+    });
   }
 
   return NextResponse.json({
     ok: true,
+    accessUpdated: true,
     email,
     plan,
     cpfReceived: !!cpf,
