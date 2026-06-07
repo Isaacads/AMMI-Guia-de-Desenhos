@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { KIWIFY_CHECKOUT_URL } from "@/lib/billing";
 
 type Report = {
   analysis: {
@@ -151,7 +152,9 @@ export function RecomendadorClient({
                 </span>
               </p>
               <Link
-                href="/premium/upgrade"
+                href={KIWIFY_CHECKOUT_URL}
+                target="_blank"
+                rel="noreferrer"
                 className="rounded-md bg-primary text-background px-3 py-1.5 font-medium"
               >
                 Virar Premium
@@ -275,7 +278,9 @@ export function RecomendadorClient({
               {error.toLowerCase().includes("limite") ? (
                 <div className="mt-3">
                   <Link
-                    href="/premium/upgrade"
+                    href={KIWIFY_CHECKOUT_URL}
+                    target="_blank"
+                    rel="noreferrer"
                     className="inline-flex rounded-md bg-primary text-background px-4 py-2 font-medium"
                   >
                     Fazer upgrade e liberar
@@ -455,7 +460,9 @@ export function RecomendadorClient({
                     </p>
                   </div>
                   <Link
-                    href="/premium/upgrade"
+                    href={KIWIFY_CHECKOUT_URL}
+                    target="_blank"
+                    rel="noreferrer"
                     className="rounded-md bg-primary text-background px-5 py-3 text-center font-medium w-full md:w-auto"
                   >
                     Fazer upgrade
@@ -485,7 +492,9 @@ export function RecomendadorClient({
                   </p>
                 </div>
                 <Link
-                  href="/premium/upgrade"
+                  href={KIWIFY_CHECKOUT_URL}
+                  target="_blank"
+                  rel="noreferrer"
                   className="rounded-md bg-primary text-background px-4 py-2 text-sm font-medium"
                 >
                   Upgrade

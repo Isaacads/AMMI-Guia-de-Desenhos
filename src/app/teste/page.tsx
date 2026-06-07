@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { TesteClient } from "@/app/teste/TesteClient";
+import { KIWIFY_CHECKOUT_URL } from "@/lib/billing";
 
 export default async function TestePage({
   searchParams,
@@ -66,7 +67,9 @@ export default async function TestePage({
 
       <div className="mt-8 flex flex-col gap-3 sm:flex-row">
         <Link
-          href="/premium/upgrade"
+          href={KIWIFY_CHECKOUT_URL}
+          target="_blank"
+          rel="noreferrer"
           className="rounded-md border border-foreground/20 px-5 py-3 text-center font-medium"
         >
           Ver Premium

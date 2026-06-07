@@ -453,7 +453,9 @@ export function TesteClient({ initialAge }: { initialAge: number }) {
                   Criar conta e salvar
                 </Link>
                 <Link
-                  href="/premium/upgrade"
+                  href="https://pay.kiwify.com.br/yDSNQfj"
+                  target="_blank"
+                  rel="noreferrer"
                   className="rounded-md border border-foreground/20 px-5 py-3 text-center font-medium"
                 >
                   Ver Premium

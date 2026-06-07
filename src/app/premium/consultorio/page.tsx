@@ -35,7 +35,9 @@ export default async function ConsultorioPage() {
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link
-            href="/premium/upgrade"
+            href="https://pay.kiwify.com.br/yDSNQfj"
+            target="_blank"
+            rel="noreferrer"
             className="rounded-md bg-primary px-5 py-3 text-center font-medium text-background"
           >
             Fazer upgrade

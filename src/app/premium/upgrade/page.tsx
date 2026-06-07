@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getViewer } from "@/lib/viewer";
-import { activatePremium, returnToFree } from "@/app/premium/upgrade/actions";
+import { returnToFree } from "@/app/premium/upgrade/actions";
+import { KIWIFY_CHECKOUT_URL } from "@/lib/billing";
 
 export const dynamic = "force-dynamic";
 
@@ -50,14 +51,14 @@ export default async function UpgradePage() {
                 Abrir recursos Premium
               </Link>
             ) : (
-              <form action={activatePremium}>
-                <button
-                  type="submit"
-                  className="rounded-md bg-primary px-5 py-3 text-center font-medium text-background"
-                >
-                  Ativar Premium
-                </button>
-              </form>
+              <Link
+                href={KIWIFY_CHECKOUT_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-md bg-primary px-5 py-3 text-center font-medium text-background"
+              >
+                Ativar Premium
+              </Link>
             )}
             <Link
               href="/premium/recomendador"
@@ -113,14 +114,14 @@ export default async function UpgradePage() {
               </li>
             ))}
           </ul>
-          <form action={activatePremium}>
-            <button
-              type="submit"
-              className="mt-6 inline-flex w-full justify-center rounded-md bg-primary px-5 py-3 font-medium text-background"
-            >
-              {isPremium ? "Premium ativo" : "Assinar mensal"}
-            </button>
-          </form>
+          <Link
+            href={KIWIFY_CHECKOUT_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-6 inline-flex w-full justify-center rounded-md bg-primary px-5 py-3 font-medium text-background"
+          >
+            {isPremium ? "Premium ativo" : "Assinar mensal"}
+          </Link>
         </div>
 
         <div className="rounded-2xl border border-foreground/10 bg-white/80 p-6 shadow-sm">
@@ -141,14 +142,14 @@ export default async function UpgradePage() {
               </li>
             ))}
           </ul>
-          <form action={activatePremium}>
-            <button
-              type="submit"
-              className="mt-6 inline-flex w-full justify-center rounded-md bg-foreground px-5 py-3 font-medium text-background"
-            >
-              {isPremium ? "Premium ativo" : "Assinar anual"}
-            </button>
-          </form>
+          <Link
+            href={KIWIFY_CHECKOUT_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-6 inline-flex w-full justify-center rounded-md bg-foreground px-5 py-3 font-medium text-background"
+          >
+            {isPremium ? "Premium ativo" : "Assinar anual"}
+          </Link>
         </div>
       </div>
 

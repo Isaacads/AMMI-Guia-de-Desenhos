@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { signOut } from "@/app/(auth)/actions";
 import { MobileNav } from "@/components/MobileNav";
+import { KIWIFY_CHECKOUT_URL } from "@/lib/billing";
 
 export async function SiteHeader() {
   const hasSupabaseEnv =
@@ -71,7 +72,9 @@ export async function SiteHeader() {
           ) : (
             <div className="flex items-center gap-2">
               <Link
-                href="/premium/upgrade"
+                href={KIWIFY_CHECKOUT_URL}
+                target="_blank"
+                rel="noreferrer"
                 className="rounded-md border border-background/30 px-3 py-1.5 text-background hover:bg-background/10"
               >
                 Assinar

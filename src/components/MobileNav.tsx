@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 import { signOut } from "@/app/(auth)/actions";
+import { KIWIFY_CHECKOUT_URL } from "@/lib/billing";
 
 type Props = {
   isAuthed: boolean;
@@ -100,7 +101,9 @@ export function MobileNav({ isAuthed }: Props) {
               Consultório
             </Link>
             <Link
-              href="/premium/upgrade"
+              href={KIWIFY_CHECKOUT_URL}
+              target="_blank"
+              rel="noreferrer"
               onClick={() => setOpen(false)}
               className="mt-1 block rounded-md border border-background/30 px-3 py-2 font-medium"
             >

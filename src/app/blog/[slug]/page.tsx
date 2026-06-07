@@ -128,7 +128,9 @@ export default async function BlogPostPage({
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
-              href="/premium/upgrade"
+              href="https://pay.kiwify.com.br/yDSNQfj"
+              target="_blank"
+              rel="noreferrer"
               className="rounded-md bg-primary text-background px-5 py-3 text-center font-medium"
             >
               Fazer upgrade

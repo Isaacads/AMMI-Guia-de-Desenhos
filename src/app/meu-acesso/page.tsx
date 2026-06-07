@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getViewer } from "@/lib/viewer";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { addChild } from "@/app/meu-acesso/actions";
+import { KIWIFY_CHECKOUT_URL } from "@/lib/billing";
 
 export const dynamic = "force-dynamic";
 
@@ -51,7 +52,9 @@ export default async function MeuAcessoPage({
         </div>
         {viewer.plan !== "premium" ? (
           <Link
-            href="/premium/upgrade"
+            href={KIWIFY_CHECKOUT_URL}
+            target="_blank"
+            rel="noreferrer"
             className="rounded-md bg-primary px-5 py-3 text-center font-medium text-background"
           >
             Fazer upgrade

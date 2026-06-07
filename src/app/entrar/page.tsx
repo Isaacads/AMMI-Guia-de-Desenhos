@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { signInWithEmail } from "@/app/(auth)/actions";
+import { KIWIFY_CHECKOUT_URL } from "@/lib/billing";
 
 export default async function EntrarPage({
   searchParams,
@@ -61,7 +62,9 @@ export default async function EntrarPage({
       </form>
 
       <Link
-        href="/premium/upgrade"
+        href={KIWIFY_CHECKOUT_URL}
+        target="_blank"
+        rel="noreferrer"
         className="mt-4 inline-flex w-full items-center justify-center rounded-md border border-foreground/20 px-4 py-2.5 font-medium hover:bg-white/20"
       >
         Assinar agora

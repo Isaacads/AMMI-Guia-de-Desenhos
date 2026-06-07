@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { KIWIFY_CHECKOUT_URL } from "@/lib/billing";
 
 export default function Home() {
   return (
@@ -113,7 +114,9 @@ export default function Home() {
             </p>
           </div>
           <Link
-            href="/premium/upgrade"
+            href={KIWIFY_CHECKOUT_URL}
+            target="_blank"
+            rel="noreferrer"
             className="w-full rounded-md bg-foreground px-5 py-3 text-center font-medium text-background md:w-auto"
           >
             Ver Premium
