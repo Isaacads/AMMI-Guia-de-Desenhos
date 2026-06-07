@@ -5,6 +5,7 @@ export type Viewer = {
   email: string | null;
   plan: "free" | "premium";
   fullName: string | null;
+  firstAccessNoticeSeen: boolean;
 };
 
 export async function getViewer(): Promise<Viewer | null> {
@@ -21,7 +22,7 @@ export async function getViewer(): Promise<Viewer | null> {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("email, full_name, plan")
+    .select("email, full_name, plan, first_access_notice_seen")
     .eq("id", user.id)
     .maybeSingle();
 
@@ -32,5 +33,6 @@ export async function getViewer(): Promise<Viewer | null> {
     email: profile?.email ?? user.email ?? null,
     fullName: profile?.full_name ?? null,
     plan,
+    firstAccessNoticeSeen: profile?.first_access_notice_seen ?? false,
   };
 }

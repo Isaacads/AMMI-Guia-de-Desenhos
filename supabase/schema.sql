@@ -5,6 +5,7 @@ create table if not exists public.profiles (
   email text,
   full_name text,
   plan text not null default 'free' check (plan in ('free', 'premium')),
+  first_access_notice_seen boolean not null default false,
   created_at timestamptz not null default now()
 );
 
@@ -39,8 +40,8 @@ security definer
 set search_path = public
 as $$
 begin
-  insert into public.profiles (id, email, full_name, plan)
-  values (new.id, new.email, null, 'free')
+  insert into public.profiles (id, email, full_name, plan, first_access_notice_seen)
+  values (new.id, new.email, null, 'free', false)
   on conflict (id) do update
   set email = excluded.email;
   return new;

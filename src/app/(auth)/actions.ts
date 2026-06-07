@@ -68,6 +68,7 @@ export async function signUpWithEmail(formData: FormData) {
         email,
         full_name: fullName || null,
         plan: "free",
+        first_access_notice_seen: false,
       },
       { onConflict: "id" },
     );

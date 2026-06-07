@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getViewer } from "@/lib/viewer";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { addChild } from "@/app/meu-acesso/actions";
+import { addChild, markFirstAccessNoticeSeen } from "@/app/meu-acesso/actions";
 import { KIWIFY_CHECKOUT_URL } from "@/lib/billing";
 
 export const dynamic = "force-dynamic";
@@ -37,6 +37,7 @@ export default async function MeuAcessoPage({
   const errorMessage = rawError?.includes("children_user_id_fkey")
     ? "Seu perfil ainda não existe na tabela profiles do Supabase. Rode o schema.sql no Supabase (SQL Editor) e tente novamente."
     : rawError;
+  const showFirstAccessNotice = !viewer.firstAccessNoticeSeen;
 
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-10">
@@ -72,6 +73,24 @@ export default async function MeuAcessoPage({
       {errorMessage ? (
         <div className="mt-6 rounded-xl border border-warning/30 bg-warning/10 p-4 text-sm">
           {errorMessage}
+        </div>
+      ) : null}
+
+      {showFirstAccessNotice ? (
+        <div className="mt-6 rounded-2xl border border-primary/20 bg-primary/5 p-5">
+          <p className="font-semibold">Seu primeiro acesso</p>
+          <p className="mt-2 text-sm text-foreground/80">
+            Use o e-mail da compra e o CPF informado no checkout como senha.
+            Depois do primeiro acesso, você pode alterar a senha se quiser.
+          </p>
+          <form action={markFirstAccessNoticeSeen} className="mt-4">
+            <button
+              type="submit"
+              className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-background"
+            >
+              Entendi
+            </button>
+          </form>
         </div>
       ) : null}
 

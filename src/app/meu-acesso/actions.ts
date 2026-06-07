@@ -61,3 +61,16 @@ export async function addChild(formData: FormData) {
 
   redirect("/meu-acesso");
 }
+
+export async function markFirstAccessNoticeSeen() {
+  const supabase = await createSupabaseServerClient();
+  const { data } = await supabase.auth.getUser();
+  if (!data.user) redirect("/entrar");
+
+  await supabase
+    .from("profiles")
+    .update({ first_access_notice_seen: true })
+    .eq("id", data.user.id);
+
+  redirect("/meu-acesso");
+}
