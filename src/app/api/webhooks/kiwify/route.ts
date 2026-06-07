@@ -110,10 +110,20 @@ export async function POST(request: Request) {
   let profileId = profile?.id ?? null;
 
   if (!profileId) {
+    if (!cpf) {
+      return NextResponse.json(
+        {
+          error:
+            "CPF não encontrado no payload. Não é possível criar a senha inicial sem ele.",
+        },
+        { status: 400 },
+      );
+    }
+
     const { data: createdUser, error: createUserError } =
       await supabase.auth.admin.createUser({
         email,
-        password: cpf ?? crypto.randomUUID(),
+        password: cpf,
         email_confirm: true,
       });
 
