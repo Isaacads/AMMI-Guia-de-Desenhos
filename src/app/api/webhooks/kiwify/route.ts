@@ -119,98 +119,66 @@ export async function POST(request: Request) {
 
   const plan = pickPlan(payload);
 
-  const { data: profiles, error: selectError } = await supabase
-    .from("profiles")
-    .select("id,email,plan")
-    .ilike("email", email)
-    .limit(1);
+  let authUser = await findAuthUserByEmail(supabase, email);
+  let createdAuthUser = false;
 
-  if (selectError) {
+  if (!authUser) {
+    if (!cpf) {
+      return NextResponse.json(
+        {
+          error:
+            "CPF não encontrado no payload. Não é possível criar a senha inicial sem ele.",
+        },
+        { status: 400 },
+      );
+    }
+
+    const { data: createdUser, error: createUserError } =
+      await supabase.auth.admin.createUser({
+        email,
+        password: cpf,
+        email_confirm: true,
+      });
+
+    if (createUserError) {
+      return NextResponse.json(
+        { error: createUserError.message },
+        { status: 500 },
+      );
+    }
+
+    authUser = createdUser.user ?? null;
+    createdAuthUser = true;
+  }
+
+  if (!authUser?.id) {
     return NextResponse.json(
-      { error: selectError.message },
+      {
+        error:
+          "Usuário não encontrado no Auth e também não foi possível criar um novo usuário.",
+      },
       { status: 500 },
     );
   }
 
-  const profile = profiles?.[0] ?? null;
-  let profileId = profile?.id ?? null;
-
-  if (!profileId) {
-    const existingAuthUser = await findAuthUserByEmail(supabase, email);
-    profileId = existingAuthUser?.id ?? null;
-
-    if (!profileId) {
-      if (!cpf) {
-        return NextResponse.json(
-          {
-            error:
-              "CPF não encontrado no payload. Não é possível criar a senha inicial sem ele.",
-          },
-          { status: 400 },
-        );
-      }
-
-      const { data: createdUser, error: createUserError } =
-        await supabase.auth.admin.createUser({
-          email,
-          password: cpf,
-          email_confirm: true,
-        });
-
-      if (createUserError) {
-        return NextResponse.json(
-          { error: createUserError.message },
-          { status: 500 },
-        );
-      }
-
-      profileId = createdUser.user?.id ?? null;
-    }
-
-    if (!profileId) {
-      return NextResponse.json(
-        {
-          error:
-            "Usuário criado no Auth, mas o ID não foi retornado para criar o perfil.",
-        },
-        { status: 500 },
-      );
-    }
-
-    const { error: upsertProfileError } = await supabase
-      .from("profiles")
-      .upsert(
-        {
-          id: profileId,
-          email,
-          plan,
-          full_name: null,
-          first_access_notice_seen: false,
-        },
-        { onConflict: "id" },
-      );
-
-    if (upsertProfileError) {
-      return NextResponse.json(
-        { error: upsertProfileError.message },
-        { status: 500 },
-      );
-    }
-  } else {
-    const { error: updateError } = await supabase
-      .from("profiles")
-      .update({
-        plan,
+  const { error: upsertProfileError } = await supabase
+    .from("profiles")
+    .upsert(
+      {
+        id: authUser.id,
         email,
-      })
-      .eq("id", profile.id);
+        plan,
+        full_name: null,
+        first_access_notice_seen: false,
+      },
+      { onConflict: "id" },
+    );
 
-    if (updateError) {
-      return NextResponse.json(
-        { error: updateError.message },
-        { status: 500 },
-      );
-    }
+  if (upsertProfileError) {
+    return NextResponse.json(
+      { error: upsertProfileError.message },
+      { status: 500 },
+    );
   }
 
   return NextResponse.json({
@@ -218,7 +186,6 @@ export async function POST(request: Request) {
     email,
     plan,
     cpfReceived: !!cpf,
-    createdProfile: !profile,
-    authMatchedExistingUser: !profile && !!profileId,
+    createdAuthUser,
   });
 }
