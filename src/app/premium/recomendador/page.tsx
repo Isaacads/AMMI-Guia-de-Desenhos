@@ -58,11 +58,11 @@ export default async function RecomendadorPage({
     <div className="mx-auto w-full max-w-5xl px-4 py-10">
       <div className="flex flex-col gap-3">
         <h1 className="text-3xl font-semibold tracking-tight">
-          Recomendador inteligente de desenhos
+          Sugestoes inteligentes de desenhos
         </h1>
-        <p className="text-foreground/80 max-w-3xl">
+        <p className="max-w-3xl text-foreground/80">
           Uma ferramenta consultiva que considera idade, perfil e contexto de
-          tela para orientar escolhas com mais segurança.
+          tela para orientar escolhas com mais seguranca.
         </p>
       </div>
 

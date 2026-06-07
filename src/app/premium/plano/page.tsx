@@ -13,15 +13,15 @@ export default async function PlanoPage() {
     return (
       <div className="mx-auto w-full max-w-3xl px-4 py-10">
         <h1 className="text-3xl font-semibold tracking-tight">
-          Gerador de plano (Premium)
+          Plano semanal (Premium)
         </h1>
         <p className="mt-3 text-foreground/80">
-          Crie cronogramas saudáveis com base em idade e meta semanal.
+          Crie cronogramas saudaveis com base em idade e meta semanal.
         </p>
-        <div className="mt-8 flex flex-col sm:flex-row gap-3">
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link
             href="/premium/upgrade"
-            className="rounded-md bg-primary text-background px-5 py-3 text-center font-medium"
+            className="rounded-md bg-primary px-5 py-3 text-center font-medium text-background"
           >
             Fazer upgrade
           </Link>
@@ -29,7 +29,7 @@ export default async function PlanoPage() {
             href="/premium/recomendador"
             className="rounded-md border border-foreground/20 px-5 py-3 text-center font-medium"
           >
-            Ver recomendador
+            Ver sugestoes
           </Link>
         </div>
       </div>
@@ -40,9 +40,9 @@ export default async function PlanoPage() {
     <div className="mx-auto w-full max-w-5xl px-4 py-10">
       <div className="flex flex-col gap-3">
         <h1 className="text-3xl font-semibold tracking-tight">
-          Gerador de plano de visualização
+          Plano semanal de visualizacao
         </h1>
-        <p className="text-foreground/80 max-w-3xl">
+        <p className="max-w-3xl text-foreground/80">
           Um cronograma simples para reduzir conflitos, aumentar previsibilidade
           e manter o tempo de tela dentro do recomendado.
         </p>

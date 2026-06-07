@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 function safeNextPath(next: string | null) {
@@ -11,7 +12,22 @@ function safeNextPath(next: string | null) {
   return trimmed;
 }
 
-function authErrorPath(base: "/entrar" | "/cadastro", message: string, next: string | null) {
+function authPath(
+  base: "/entrar" | "/cadastro" | "/recuperar-senha",
+  params: Record<string, string | null>,
+) {
+  const searchParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value) searchParams.set(key, value);
+  });
+  return `${base}?${searchParams.toString()}`;
+}
+
+function authErrorPath(
+  base: "/entrar" | "/cadastro" | "/recuperar-senha",
+  message: string,
+  next: string | null,
+) {
   const params = new URLSearchParams({ erro: message });
   if (next) params.set("next", next);
   return `${base}?${params.toString()}`;
@@ -58,6 +74,35 @@ export async function signUpWithEmail(formData: FormData) {
   }
 
   redirect(next ?? "/meu-acesso");
+}
+
+export async function sendPasswordResetEmail(formData: FormData) {
+  const email = String(formData.get("email") ?? "").trim();
+
+  if (!email) {
+    redirect(authErrorPath("/recuperar-senha", "Informe seu email.", null));
+  }
+
+  const headersList = await headers();
+  const origin =
+    headersList.get("origin") ??
+    `${headersList.get("x-forwarded-proto") ?? "http"}://${headersList.get("host")}`;
+
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${origin}/alterar-senha`,
+  });
+
+  if (error) {
+    redirect(authErrorPath("/recuperar-senha", error.message, null));
+  }
+
+  redirect(
+    authPath("/recuperar-senha", {
+      sucesso:
+        "Enviamos um link para alterar sua senha. Confira seu email e siga as instruções.",
+    }),
+  );
 }
 
 export async function signOut() {

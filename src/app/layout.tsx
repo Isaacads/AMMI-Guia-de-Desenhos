@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { BackButton } from "@/components/BackButton";
 
 export const metadata: Metadata = {
   title: "AMMI · Guia de Desenhos por Idade",
@@ -20,6 +21,9 @@ export default function RootLayout({
         <SiteHeader />
         <main className="flex-1 px-3 sm:px-4 py-6">
           <div className="mx-auto w-full max-w-6xl">
+            <div className="mb-3 flex justify-start">
+              <BackButton />
+            </div>
             <div className="rounded-3xl bg-background border border-foreground/10 shadow-sm overflow-hidden">
               {children}
             </div>

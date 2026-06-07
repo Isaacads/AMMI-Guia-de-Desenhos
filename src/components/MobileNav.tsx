@@ -60,7 +60,7 @@ export function MobileNav({ isAuthed }: Props) {
           />
           <div
             id={panelId}
-            className="absolute right-0 mt-2 w-[min(92vw,320px)] z-50 rounded-xl bg-[var(--app-bg)] text-background shadow-lg border border-background/20 p-2"
+            className="absolute right-0 z-50 mt-2 w-[min(92vw,320px)] rounded-xl border border-background/20 bg-[var(--app-bg)] p-2 text-background shadow-lg"
           >
             <Link href="/teste" onClick={() => setOpen(false)} className={linkClass}>
               Teste
@@ -76,7 +76,7 @@ export function MobileNav({ isAuthed }: Props) {
               onClick={() => setOpen(false)}
               className={linkClass}
             >
-              Recomendador
+              Sugestões
             </Link>
             <Link
               href="/premium/catalogo"
@@ -90,7 +90,7 @@ export function MobileNav({ isAuthed }: Props) {
               onClick={() => setOpen(false)}
               className={linkClass}
             >
-              Plano
+              Plano semanal
             </Link>
             <Link
               href="/premium/consultorio"
@@ -98,6 +98,13 @@ export function MobileNav({ isAuthed }: Props) {
               className={linkClass}
             >
               Consultório
+            </Link>
+            <Link
+              href="/premium/upgrade"
+              onClick={() => setOpen(false)}
+              className="mt-1 block rounded-md border border-background/30 px-3 py-2 font-medium"
+            >
+              Assinar
             </Link>
             {isAuthed ? (
               <>
@@ -111,7 +118,7 @@ export function MobileNav({ isAuthed }: Props) {
                 <form action={signOut} className="mt-1">
                   <button
                     type="submit"
-                    className="w-full rounded-md bg-background text-foreground px-3 py-2 text-left font-medium"
+                    className="w-full rounded-md bg-background px-3 py-2 text-left font-medium text-foreground"
                   >
                     Sair
                   </button>
@@ -121,7 +128,7 @@ export function MobileNav({ isAuthed }: Props) {
               <Link
                 href="/entrar"
                 onClick={() => setOpen(false)}
-                className="mt-1 block rounded-md bg-background text-foreground px-3 py-2 font-medium"
+                className="mt-1 block rounded-md bg-background px-3 py-2 font-medium text-foreground"
               >
                 Entrar
               </Link>

@@ -9,6 +9,17 @@ type Row = {
   is_premium: boolean;
 };
 
+const BLOG_QUERY_TIMEOUT_MS = 900;
+
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T | null> {
+  return Promise.race([
+    promise,
+    new Promise<null>((resolve) => {
+      setTimeout(() => resolve(null), timeoutMs);
+    }),
+  ]);
+}
+
 export default async function BlogPage() {
   let articles: Array<{
     slug: string;
@@ -24,11 +35,17 @@ export default async function BlogPage() {
 
   try {
     const supabase = await createSupabaseServerClient();
-    const { data, error } = await supabase
-      .from("articles")
-      .select("slug,title,excerpt,is_premium")
-      .order("published_at", { ascending: false })
-      .limit(20);
+    const result = await withTimeout(
+      supabase
+        .from("articles")
+        .select("slug,title,excerpt,is_premium")
+        .order("published_at", { ascending: false })
+        .limit(20),
+      BLOG_QUERY_TIMEOUT_MS,
+    );
+
+    const data = result?.data;
+    const error = result?.error;
 
     if (!error && data && data.length > 0) {
       articles = (data as Row[]).map((a) => ({
@@ -83,4 +100,3 @@ export default async function BlogPage() {
     </div>
   );
 }
-

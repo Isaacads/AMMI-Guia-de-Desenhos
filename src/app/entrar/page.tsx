@@ -14,7 +14,7 @@ export default async function EntrarPage({
     <div className="mx-auto w-full max-w-md px-4 py-10">
       <h1 className="text-3xl font-semibold tracking-tight">Entrar</h1>
       <p className="mt-2 text-foreground/80">
-        Acesse para salvar preferências e usar os recursos premium.
+        Acesse com o email e senha liberados após a compra.
       </p>
 
       {errorMessage ? (
@@ -54,19 +54,23 @@ export default async function EntrarPage({
         </div>
         <button
           type="submit"
-          className="w-full rounded-md bg-primary text-background px-4 py-2.5 font-medium"
+          className="w-full rounded-md bg-primary px-4 py-2.5 font-medium text-background"
         >
           Entrar
         </button>
       </form>
 
+      <Link
+        href="/premium/upgrade"
+        className="mt-4 inline-flex w-full items-center justify-center rounded-md border border-foreground/20 px-4 py-2.5 font-medium hover:bg-white/20"
+      >
+        Assinar Agora
+      </Link>
+
       <p className="mt-6 text-sm text-foreground/80">
-        Ainda não tem conta?{" "}
-        <Link
-          href={next ? `/cadastro?next=${encodeURIComponent(next)}` : "/cadastro"}
-          className="font-medium hover:underline"
-        >
-          Criar cadastro
+        Esqueceu sua senha?{" "}
+        <Link href="/recuperar-senha" className="font-medium hover:underline">
+          Alterar senha
         </Link>
       </p>
     </div>

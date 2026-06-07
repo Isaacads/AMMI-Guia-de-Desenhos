@@ -19,65 +19,70 @@ export async function SiteHeader() {
 
   return (
     <header className="bg-[var(--app-bg)] text-background">
-      <div className="mx-auto w-full max-w-6xl px-4 py-3 flex items-center justify-between gap-4">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3">
         <Link href="/" className="font-semibold tracking-tight text-background">
           AMMI · Guia de Desenhos
         </Link>
-        <nav className="hidden md:flex items-center gap-3 text-sm">
-          <Link href="/teste" className="hover:underline text-background/95">
+        <nav className="hidden items-center gap-3 text-sm md:flex">
+          <Link href="/teste" className="text-background/95 hover:underline">
             Teste
           </Link>
-          <Link href="/guia" className="hover:underline text-background/95">
+          <Link href="/guia" className="text-background/95 hover:underline">
             Guia
           </Link>
-          <Link href="/blog" className="hover:underline text-background/95">
+          <Link href="/blog" className="text-background/95 hover:underline">
             Artigos
           </Link>
           <Link
             href="/premium/recomendador"
-            className="hover:underline text-background/95"
+            className="text-background/95 hover:underline"
           >
-            Recomendador
+            Sugestões
           </Link>
           <Link
             href="/premium/catalogo"
-            className="hover:underline text-background/95"
+            className="text-background/95 hover:underline"
           >
             Catálogo
           </Link>
-          <Link
-            href="/premium/plano"
-            className="hover:underline text-background/95"
-          >
-            Plano
+          <Link href="/premium/plano" className="text-background/95 hover:underline">
+            Plano semanal
           </Link>
           <Link
             href="/premium/consultorio"
-            className="hover:underline text-background/95"
+            className="text-background/95 hover:underline"
           >
             Consultório
           </Link>
           {user ? (
             <>
-              <Link href="/meu-acesso" className="hover:underline text-background/95">
+              <Link href="/meu-acesso" className="text-background/95 hover:underline">
                 Meu acesso
               </Link>
               <form action={signOut}>
                 <button
                   type="submit"
-                  className="rounded-md bg-background text-foreground px-3 py-1.5"
+                  className="rounded-md bg-background px-3 py-1.5 text-foreground"
                 >
                   Sair
                 </button>
               </form>
             </>
           ) : (
-            <Link
-              href="/entrar"
-              className="rounded-md bg-background text-foreground px-3 py-1.5"
-            >
-              Entrar
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link
+                href="/premium/upgrade"
+                className="rounded-md border border-background/30 px-3 py-1.5 text-background hover:bg-background/10"
+              >
+                Assinar
+              </Link>
+              <Link
+                href="/entrar"
+                className="rounded-md bg-background px-3 py-1.5 text-foreground"
+              >
+                Entrar
+              </Link>
+            </div>
           )}
         </nav>
         <MobileNav isAuthed={!!user} />
