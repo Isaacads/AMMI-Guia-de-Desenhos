@@ -65,6 +65,12 @@ function pickPlan(payload: unknown): "premium" | "free" {
   return refund ? "free" : "premium";
 }
 
+function pickTrigger(payload: unknown): string {
+  if (!payload || typeof payload !== "object") return "";
+  const obj = payload as Record<string, unknown>;
+  return String(obj.event ?? obj.type ?? obj.action ?? obj.trigger ?? "").toLowerCase();
+}
+
 async function findAuthUserByEmail(
   supabase: ReturnType<typeof createSupabaseAdminClient>,
   email: string,
@@ -102,6 +108,7 @@ export async function POST(request: Request) {
   const payload = await request.json().catch(() => null);
   const email = pickEmail(payload);
   const cpf = pickCpf(payload);
+  const trigger = pickTrigger(payload);
 
   if (!email) {
     return NextResponse.json({ error: "E-mail não encontrado no payload" }, { status: 400 });
@@ -118,6 +125,16 @@ export async function POST(request: Request) {
   }
 
   const plan = pickPlan(payload);
+
+  if (trigger.includes("pix_gerado")) {
+    return NextResponse.json({
+      ok: true,
+      email,
+      plan: "free",
+      trigger,
+      pixGenerated: true,
+    });
+  }
 
   let authUser = await findAuthUserByEmail(supabase, email);
   let createdAuthUser = false;
@@ -187,5 +204,6 @@ export async function POST(request: Request) {
     plan,
     cpfReceived: !!cpf,
     createdAuthUser,
+    trigger,
   });
 }
