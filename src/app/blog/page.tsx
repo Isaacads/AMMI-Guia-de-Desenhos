@@ -11,7 +11,10 @@ type Row = {
 
 const BLOG_QUERY_TIMEOUT_MS = 900;
 
-function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T | null> {
+function withTimeout<T>(
+  promise: PromiseLike<T>,
+  timeoutMs: number,
+): Promise<T | null> {
   return Promise.race([
     promise,
     new Promise<null>((resolve) => {
