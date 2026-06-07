@@ -110,6 +110,16 @@ export async function POST(request: Request) {
   const cpf = pickCpf(payload);
   const trigger = pickTrigger(payload);
 
+  if (trigger.includes("pix_gerado")) {
+    return NextResponse.json({
+      ok: true,
+      plan: "free",
+      trigger,
+      pixGenerated: true,
+      email: email ?? null,
+    });
+  }
+
   if (!email) {
     return NextResponse.json({ error: "E-mail não encontrado no payload" }, { status: 400 });
   }
@@ -125,16 +135,6 @@ export async function POST(request: Request) {
   }
 
   const plan = pickPlan(payload);
-
-  if (trigger.includes("pix_gerado")) {
-    return NextResponse.json({
-      ok: true,
-      email,
-      plan: "free",
-      trigger,
-      pixGenerated: true,
-    });
-  }
 
   let authUser = await findAuthUserByEmail(supabase, email);
   let createdAuthUser = false;
