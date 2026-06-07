@@ -29,6 +29,33 @@ function pickEmail(payload: unknown): string | null {
   return null;
 }
 
+function pickCpf(payload: unknown): string | null {
+  if (!payload || typeof payload !== "object") return null;
+  const obj = payload as Record<string, unknown>;
+  const customer =
+    obj.customer && typeof obj.customer === "object"
+      ? (obj.customer as Record<string, unknown>)
+      : null;
+
+  const directCandidates = [
+    obj.cpf,
+    obj.buyer_cpf,
+    obj.customer_cpf,
+    customer?.cpf,
+    obj.document,
+    obj.document_number,
+  ];
+
+  for (const candidate of directCandidates) {
+    if (typeof candidate === "string") {
+      const digits = candidate.replace(/\D/g, "");
+      if (digits) return digits;
+    }
+  }
+
+  return null;
+}
+
 function pickPlan(payload: unknown): "premium" | "free" {
   if (!payload || typeof payload !== "object") return "premium";
   const obj = payload as Record<string, unknown>;
@@ -48,6 +75,7 @@ export async function POST(request: Request) {
 
   const payload = await request.json().catch(() => null);
   const email = pickEmail(payload);
+  const cpf = pickCpf(payload);
 
   if (!email) {
     return NextResponse.json({ error: "E-mail não encontrado no payload" }, { status: 400 });
@@ -78,39 +106,72 @@ export async function POST(request: Request) {
     );
   }
 
-  const profile = profiles?.[0];
+  const profile = profiles?.[0] ?? null;
+  let profileId = profile?.id ?? null;
 
-  if (!profile) {
-    return NextResponse.json(
-      {
-        ok: false,
-        message:
-          "Webhook recebido, mas nenhum perfil com este e-mail foi encontrado no Supabase.",
+  if (!profileId) {
+    const { data: createdUser, error: createUserError } =
+      await supabase.auth.admin.createUser({
         email,
-        plan,
-      },
-      { status: 202 },
-    );
-  }
+        password: cpf ?? crypto.randomUUID(),
+        email_confirm: true,
+      });
 
-  const { error: updateError } = await supabase
-    .from("profiles")
-    .update({
-      plan,
+    if (createUserError) {
+      return NextResponse.json(
+        { error: createUserError.message },
+        { status: 500 },
+      );
+    }
+
+    profileId = createdUser.user?.id ?? null;
+
+    if (!profileId) {
+      return NextResponse.json(
+        {
+          error:
+            "Usuário criado no Auth, mas o ID não foi retornado para criar o perfil.",
+        },
+        { status: 500 },
+      );
+    }
+
+    const { error: insertProfileError } = await supabase.from("profiles").insert({
+      id: profileId,
       email,
-    })
-    .eq("id", profile.id);
+      plan,
+      full_name: null,
+      first_access_notice_seen: false,
+    });
 
-  if (updateError) {
-    return NextResponse.json(
-      { error: updateError.message },
-      { status: 500 },
-    );
+    if (insertProfileError) {
+      return NextResponse.json(
+        { error: insertProfileError.message },
+        { status: 500 },
+      );
+    }
+  } else {
+    const { error: updateError } = await supabase
+      .from("profiles")
+      .update({
+        plan,
+        email,
+      })
+      .eq("id", profile.id);
+
+    if (updateError) {
+      return NextResponse.json(
+        { error: updateError.message },
+        { status: 500 },
+      );
+    }
   }
 
   return NextResponse.json({
     ok: true,
     email,
     plan,
+    cpfReceived: !!cpf,
+    createdProfile: !profile,
   });
 }
