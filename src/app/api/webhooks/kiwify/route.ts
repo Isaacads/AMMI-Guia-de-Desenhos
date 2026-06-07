@@ -165,7 +165,19 @@ export async function POST(request: Request) {
   }
 
   if (!email) {
-    return NextResponse.json({ error: "E-mail não encontrado no payload" }, { status: 400 });
+    console.error("Kiwify webhook sem e-mail", {
+      trigger,
+      status,
+      payload,
+    });
+
+    return NextResponse.json({
+      ok: true,
+      accessUpdated: false,
+      trigger,
+      status,
+      error: "E-mail não encontrado no payload.",
+    });
   }
 
   let supabase;
@@ -185,13 +197,22 @@ export async function POST(request: Request) {
 
   if (!authUser) {
     if (!cpf) {
-      return NextResponse.json(
-        {
-          error:
-            "CPF não encontrado no payload. Não é possível criar a senha inicial sem ele.",
-        },
-        { status: 400 },
-      );
+      console.error("Kiwify webhook sem CPF para novo usuário", {
+        email,
+        trigger,
+        status,
+        payload,
+      });
+
+      return NextResponse.json({
+        ok: true,
+        accessUpdated: false,
+        email,
+        trigger,
+        status,
+        error:
+          "CPF não encontrado no payload. Não foi possível criar a senha inicial.",
+      });
     }
 
     const { data: createdUser, error: createUserError } =
