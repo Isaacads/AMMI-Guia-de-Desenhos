@@ -3,57 +3,73 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
 const EXPECTED_TOKEN = "8kj1p4oxwpz";
 
-function pickEmail(payload: unknown): string | null {
-  if (!payload || typeof payload !== "object") return null;
-  const obj = payload as Record<string, unknown>;
-  const customer =
-    obj.customer && typeof obj.customer === "object"
-      ? (obj.customer as Record<string, unknown>)
-      : null;
+function searchStringValue(
+  value: unknown,
+  keys: string[],
+  transform?: (input: string) => string | null,
+): string | null {
+  const visited = new WeakSet<object>();
 
-  const directCandidates = [
-    obj.email,
-    obj.buyer_email,
-    obj.customer_email,
-    customer?.email,
-    obj.client_email,
-    obj.user_email,
-  ];
+  const walk = (current: unknown): string | null => {
+    if (!current || typeof current !== "object") return null;
 
-  for (const candidate of directCandidates) {
-    if (typeof candidate === "string" && candidate.trim()) {
-      return candidate.trim().toLowerCase();
+    const obj = current as Record<string, unknown>;
+    if (visited.has(obj)) return null;
+    visited.add(obj);
+
+    for (const key of keys) {
+      const candidate = obj[key];
+      if (typeof candidate === "string") {
+        const normalized = transform ? transform(candidate) : candidate.trim();
+        if (normalized) return normalized;
+      }
     }
-  }
 
-  return null;
+    for (const nested of Object.values(obj)) {
+      if (nested && typeof nested === "object") {
+        const found = walk(nested);
+        if (found) return found;
+      }
+    }
+
+    return null;
+  };
+
+  return walk(value);
+}
+
+function pickEmail(payload: unknown): string | null {
+  return searchStringValue(
+    payload,
+    [
+      "email",
+      "buyer_email",
+      "customer_email",
+      "client_email",
+      "user_email",
+    ],
+    (input) => {
+      const trimmed = input.trim().toLowerCase();
+      return trimmed ? trimmed : null;
+    },
+  );
 }
 
 function pickCpf(payload: unknown): string | null {
-  if (!payload || typeof payload !== "object") return null;
-  const obj = payload as Record<string, unknown>;
-  const customer =
-    obj.customer && typeof obj.customer === "object"
-      ? (obj.customer as Record<string, unknown>)
-      : null;
-
-  const directCandidates = [
-    obj.cpf,
-    obj.buyer_cpf,
-    obj.customer_cpf,
-    customer?.cpf,
-    obj.document,
-    obj.document_number,
-  ];
-
-  for (const candidate of directCandidates) {
-    if (typeof candidate === "string") {
-      const digits = candidate.replace(/\D/g, "");
-      if (digits) return digits;
-    }
-  }
-
-  return null;
+  return searchStringValue(
+    payload,
+    [
+      "cpf",
+      "buyer_cpf",
+      "customer_cpf",
+      "document",
+      "document_number",
+    ],
+    (input) => {
+      const digits = input.replace(/\D/g, "");
+      return digits || null;
+    },
+  );
 }
 
 function pickPlan(payload: unknown): "premium" | "free" {
@@ -67,8 +83,8 @@ function pickPlan(payload: unknown): "premium" | "free" {
 
 function pickTrigger(payload: unknown): string {
   if (!payload || typeof payload !== "object") return "";
-  const obj = payload as Record<string, unknown>;
-  return String(obj.event ?? obj.type ?? obj.action ?? obj.trigger ?? "").toLowerCase();
+  const found = searchStringValue(payload, ["event", "type", "action", "trigger"]);
+  return String(found ?? "").toLowerCase();
 }
 
 async function findAuthUserByEmail(
