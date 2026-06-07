@@ -65,6 +65,32 @@ function pickPlan(payload: unknown): "premium" | "free" {
   return refund ? "free" : "premium";
 }
 
+async function findAuthUserByEmail(
+  supabase: ReturnType<typeof createSupabaseAdminClient>,
+  email: string,
+) {
+  for (let page = 1; page <= 10; page += 1) {
+    const { data, error } = await supabase.auth.admin.listUsers({
+      page,
+      perPage: 1000,
+    });
+
+    if (error) {
+      throw error;
+    }
+
+    const match = data.users.find(
+      (user) => String(user.email ?? "").trim().toLowerCase() === email,
+    );
+
+    if (match) return match;
+
+    if (data.users.length < 1000) break;
+  }
+
+  return null;
+}
+
 export async function POST(request: Request) {
   const url = new URL(request.url);
   const token = url.searchParams.get("token");
@@ -110,31 +136,36 @@ export async function POST(request: Request) {
   let profileId = profile?.id ?? null;
 
   if (!profileId) {
-    if (!cpf) {
-      return NextResponse.json(
-        {
-          error:
-            "CPF não encontrado no payload. Não é possível criar a senha inicial sem ele.",
-        },
-        { status: 400 },
-      );
+    const existingAuthUser = await findAuthUserByEmail(supabase, email);
+    profileId = existingAuthUser?.id ?? null;
+
+    if (!profileId) {
+      if (!cpf) {
+        return NextResponse.json(
+          {
+            error:
+              "CPF não encontrado no payload. Não é possível criar a senha inicial sem ele.",
+          },
+          { status: 400 },
+        );
+      }
+
+      const { data: createdUser, error: createUserError } =
+        await supabase.auth.admin.createUser({
+          email,
+          password: cpf,
+          email_confirm: true,
+        });
+
+      if (createUserError) {
+        return NextResponse.json(
+          { error: createUserError.message },
+          { status: 500 },
+        );
+      }
+
+      profileId = createdUser.user?.id ?? null;
     }
-
-    const { data: createdUser, error: createUserError } =
-      await supabase.auth.admin.createUser({
-        email,
-        password: cpf,
-        email_confirm: true,
-      });
-
-    if (createUserError) {
-      return NextResponse.json(
-        { error: createUserError.message },
-        { status: 500 },
-      );
-    }
-
-    profileId = createdUser.user?.id ?? null;
 
     if (!profileId) {
       return NextResponse.json(
@@ -188,5 +219,6 @@ export async function POST(request: Request) {
     plan,
     cpfReceived: !!cpf,
     createdProfile: !profile,
+    authMatchedExistingUser: !profile && !!profileId,
   });
 }
